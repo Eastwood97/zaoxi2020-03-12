@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsc.zao.mapper.NumberMapper">
+
+
+    <select id="getCountByKeywords" resultType="int">
+        SELECT count(*) FROM number
+        <where>
+            <if test="imsi!=null and imsi!=''">
+                and imsi = #{imsi, jdbcType=VARCHAR}
+            </if>
+            <if test="imei!=null and imei!=''">
+                and imei=#{imei, jdbcType=VARCHAR}
+            </if>
+            <if test="isdn!=null and isdn!=''">
+                and isdn=#{isdn, jdbcType=VARCHAR}
+            </if>
+            <if test="area!=null and area!=''">
+                and area  like  concat('%',#{area,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="isTarget!=null and isTarget!=''">
+                and isTarget=#{isTarget,jdbcType=VARCHAR}
+            </if>
+            <if test="caseName!=null and caseName!=''">
+                and caseName like  concat('%'#{caseName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getNumbersByPage" resultType="com.jsc.zao.bean.Number">
+        select `id` ,`plmn`,`imsi`,`imei`,`isdn`,`isTarget`,`area`,`mode`,`catchTime`,`catchArea`,`lng`,`lat`,`desc`,`frtDevId`,`recordName`,`caseName`
+        from number
+        <where>
+            <if test="imsi!=null and imsi!=''">
+                and imsi = #{imsi, jdbcType=VARCHAR}
+            </if>
+            <if test="imei!=null and imei!=''">
+                and imei=#{imei, jdbcType=VARCHAR}
+            </if>
+            <if test="isdn!=null and isdn!=''">
+                and isdn=#{isdn, jdbcType=VARCHAR}
+            </if>
+            <if test="area!=null and area!=''">
+                and area  like  concat('%',#{area,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="isTarget!=null and isTarget!=''">
+                and isTarget=#{isTarget,jdbcType=VARCHAR}
+            </if>
+            <if test="caseName!=null and caseName!=''">
+                and caseName like  concat('%'#{caseName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        <if test="start!=null and size!=null">
+            ORDER BY  catchTime DESC limit #{start},#{size};
+        </if>
+    </select>
+
+    <delete id="deleteNumById">
+        DELETE FROM number WHERE id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="addNumber" parameterType="map">
+        insert  into number set    `plmn`=#{plmn},`imsi`=#{imsi},`imei`=#{imei},`isdn`=#{isdn},`isTarget`=#{isTarget},`area`=#{area},`mode`=#{mode},
+                                  `catchTime`=#{catchTime},`catchArea`=#{catchArea},`lng`=#{lng},`lat`=#{lat},`desc`=#{desc},
+                                     `frtDevId`=#{frtDevID},`recordName`=#{recordName},`caseName`=#{caseName}
+    </insert>
+
+    <select id="getCountByCTCC" resultType="int">
+    select count(DISTINCT `imsi`) from number where `plmn`="电信"
+    </select>
+
+    <select id="getCountByCMCC" resultType="int">
+        select count(DISTINCT `imsi`) from number where `plmn`="移动"
+    </select>
+
+    <select id="getCountByCUCC" resultType="int">
+        select count(DISTINCT `imsi`) from number where `plmn`="联通"
+    </select>
+
+    <select id="getCountByDay" resultType="int" parameterType="int">
+        SELECT count(*) from (SELECT DISTINCT(imsi) from (SELECT DATE_FORMAT(catchTime,'%Y%m%d') days,imsi FROM number) temp where DATEDIFF( NOW( ), days )=#{day}) as temp1
+    </select>
+    <select id="getCountToday" resultType="int">
+        SELECT count(*) from (SELECT DISTINCT(imsi) from (SELECT DATE_FORMAT(catchTime,'%Y%m%d') days,imsi FROM number) temp where DATEDIFF( NOW( ), days )=0) as temp1
+    </select>
+
+    <select id="getByIMSI" resultType="com.jsc.zao.bean.Number">
+        select `id` ,`plmn`,`imsi`,`imei`,`isdn`,`isTarget`,`area`,`mode`,`catchTime`,`catchArea`,`lng`,`lat`,`desc`,`frtDevId`,`recordName`,`caseName`
+        from number where `isdn` !='' and imsi = #{imsi, jdbcType=VARCHAR}
+    </select>
+</mapper>

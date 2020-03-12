@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.data_bodey {
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/map_bg.png');
+    background-size: 100% 100%;
+    position: absolute;
+}
+
+.title-center {
+    width: 440px;
+    height: 40px;
+    box-sizing: border-box;
+    border-right: 5px solid #0089ff;
+    border-left: 5px solid #0089ff;
+    background: url("../img/title.png") no-repeat;
+}
+
+.data-title > .title-left,
+.data-title > .title-right {
+    width: calc(50% - 220px);
+    height: 3px;
+    background: #0089ff;
+    margin-top: 18px;
+}
+
+.fl {
+    float: left;
+}
+
+.data-title {
+    width: 100%;
+    height: 105px;
+    padding: 30px 0 35px 0;
+    box-sizing: border-box;
+}

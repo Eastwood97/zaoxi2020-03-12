@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsc.zao.mapper.TargetMapper">
+    <select id="getTargetByPage" resultType="com.jsc.zao.bean.Target">
+        select `id` ,`imsi`,`imei`,`isdn`,`name`,`desc`,`caseName`,`from`
+        from target
+        <where>
+            <if test="imsi!=null and imsi!=''">
+                and imsi = #{imsi, jdbcType=VARCHAR}
+            </if>
+            <if test="imei!=null and imei!=''">
+                and imei=#{imei, jdbcType=VARCHAR}
+            </if>
+            <if test="isdn!=null and isdn!=''">
+                and isdn=#{isdn, jdbcType=VARCHAR}
+            </if>
+            <if test="name!=null and name!=''">
+                and name  like  concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="caseName!=null and caseName!=''">
+                and  caseName  like  concat('%',#{caseName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        <if test="start!=null and size!=null">
+            ORDER BY id DESC limit #{start},#{size};
+        </if>
+    </select>
+
+    <select id="getTargetCount" resultType="int">
+        select count(*) from target
+        <where>
+            <if test="imsi!=null and imsi!=''">
+                and imsi = #{imsi, jdbcType=VARCHAR}
+            </if>
+            <if test="imei!=null and imei!=''">
+                and imei=#{imei, jdbcType=VARCHAR}
+            </if>
+            <if test="isdn!=null and isdn!=''">
+                and isdn=#{isdn, jdbcType=VARCHAR}
+            </if>
+            <if test="name!=null and name!=''">
+                and name  like  concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="caseName!=null and caseName!=''">
+                and  caseName  like  concat('%',#{caseName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteTargetByID">
+     DELETE FROM target WHERE id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTargetByIMSI">
+        DELETE FROM target WHERE imsi=#{imsi}
+    </delete>
+
+    <insert id="addTargetByPC" parameterType="com.jsc.zao.bean.Target">
+        insert  into  target set `imsi`=#{imsi} ,`imei`=#{imei},`isdn`=#{isdn},`name`=#{name},`desc`=#{desc},`caseName`=#{caseName},`from`=#{from}
+    </insert>
+
+    <insert id="addTargetByMobile" parameterType="map">
+        insert  into  target set `imsi`=#{imsi} ,`imei`=#{imei},`isdn`=#{isdn},`name`=#{name},`desc`=#{desc},`caseName`=#{caseName},`from`=#{from}
+    </insert>
+
+    <update id="updateTarget" parameterType="com.jsc.zao.bean.Target">
+        update  target set `imsi`=#{imsi} ,`imei`=#{imei},`isdn`=#{isdn},`name`=#{name},`desc`=#{desc},`caseName`=#{caseName},`from`=#{from}
+        WHERE `id`=#{id}
+    </update>
+
+
+    <select id="getTargetByIMSI" resultType="com.jsc.zao.bean.Target">
+        select `id` ,`imsi`,`imei`,`isdn`,`name`,`desc`,`caseName`,`from`
+        from target where imsi=#{imsi}
+    </select>
+
+    <insert id="insertForeach" parameterType="java.util.List">
+        insert into target
+        ( `imsi`,`imei`,`isdn`,`name`,`caseName`,`from`,`desc`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.imsi,jdbcType=VARCHAR},
+            #{item.imei,jdbcType=VARCHAR},
+            #{item.isdn,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR},
+            #{item.caseName,jdbcType=VARCHAR},
+            #{item.from,jdbcType=VARCHAR},
+            #{item.desc,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+
+    <select id="getTargetByIMEI" resultType="com.jsc.zao.bean.Target">
+        select `id` ,`imsi`,`imei`,`isdn`,`name`,`desc`,`caseName`,`from`
+        from target where imei=#{imei}
+    </select>
+
+    <select id="getTargetByISDN" resultType="com.jsc.zao.bean.Target">
+        select `id` ,`imsi`,`imei`,`isdn`,`name`,`desc`,`caseName`,`from`
+        from target where isdn=#{isdn}
+    </select>
+</mapper>

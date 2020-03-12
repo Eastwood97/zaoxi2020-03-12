@@ -1,0 +1,756 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="screenStatic/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="screenStatic/css/BigData.css" rel="stylesheet" type="text/css"/>
+    <link href="screenStatic/css/index01.css" rel="stylesheet" type="text/css"/>
+    <link href="screenStatic/css/Security_operation.css" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <title>大数据管理平台</title>
+</head>
+<body>
+<!--主屏幕位置-->
+<div class="data_bodey" id="app">
+    <!--安防运作-->
+    <div class="data-title">
+        <div class="title-left fl"></div>
+        <div class="title-center fl"></div>
+        <div class="title-right fr"></div>
+        <img src="screenStatic/img/home.png" style="float:right" alt=""
+             onclick="javascript:location.href='http://localhost:8081/#/home'"></img>
+    </div>
+    <div class="left_cage">
+        <div class="info" style="margin-top: 0% !important; height: 23%;">
+            <div class="titless">实时统计</div>
+            <img src="screenStatic/img/bj-1.png" alt="" class="bj-1">
+            <img src="screenStatic/img/bj-2.png" alt="" class="bj-2">
+            <img src="screenStatic/img/bj-3.png" alt="" class="bj-3">
+            <img src="screenStatic/img/bj-4.png" alt="" class="bj-4">
+            <div class="report1">
+                <img src="screenStatic/picture/ic_all.png" style="padding-left: 10px" alt="">
+                <p style="color: white;height: 50%;width: 110%;">系统总量</p>
+                <small style="font-size: 45px;width: 100%;padding-left: 11px">{{timeData.numberCount}}</small>
+            </div>
+            <div class="report1">
+                <img src="screenStatic/picture/info-img-3.png" alt="" style="padding-left: 10px">
+                <p style="color: white;height: 50%;width: 110%">今日总量</p>
+                <small style="font-size: 45px;width: 100%;padding-left: 11px">{{timeData.numberToday}}</small>
+            </div>
+            <div class="report1">
+                <img src="screenStatic/picture/ic_person.png" alt="" style="padding-left: 10px">
+                <p style="color: white;height: 50%;width: 110%">今日目标</p>
+                <small style="font-size: 45px;width: 100%;padding-left: 11px">{{timeData.notificationToday}}</small>
+            </div>
+        </div>
+        <div class="info"
+             style="margin-top: 0% !important; height: 65.8%; top:10px;">
+            <div class="title">实时取号</div>
+            <img src="screenStatic/img/bj-1.png" alt="" class="bj-1">
+            <img src="screenStatic/img/bj-2.png" alt="" class="bj-2">
+            <img src="screenStatic/img/bj-3.png" alt="" class="bj-3">
+            <img src="screenStatic/img/bj-4.png" alt="" class="bj-4">
+
+            &nbsp;
+            <div class="scroll_top">
+            </div>
+
+        </div>
+    </div>
+    <div class="center_cage">
+        <div class="info" style="margin-top: 0% !important; height: 61.7%;">
+            <img src="screenStatic/img/bj-1.png" alt="" class="bj-1">
+            <img src="screenStatic/img/bj-2.png" alt="" class="bj-2">
+            <img src="screenStatic/img/bj-3.png" alt="" class="bj-3">
+            <img src="screenStatic/img/bj-4.png" alt="" class="bj-4">
+            <div class="map" id="map"></div>
+        </div>
+        <div class="info" style="margin-top: 0.1% !important; height: 27.4%;top: 5px">
+            <div class="title">小时/统计</div>
+            <img src="screenStatic/img/bj-1.png" alt="" class="bj-1">
+            <img src="screenStatic/img/bj-2.png" alt="" class="bj-2">
+            <img src="screenStatic/img/bj-3.png" alt="" class="bj-3">
+            <img src="screenStatic/img/bj-4.png" alt="" class="bj-4">
+            <div id="echarts_3" class="charts"></div>
+        </div>
+    </div>
+    <div class="right_cage">
+        <!--顶部切换位置-->
+        <div class="info" style="margin-top: 0% !important; height: 30%">
+            <div class="title">中标信息</div>
+            <img src="screenStatic/img/bj-1.png" alt="" class="bj-1">
+            <img src="screenStatic/img/bj-2.png" alt="" class="bj-2">
+            <img src="screenStatic/img/bj-3.png" alt="" class="bj-3">
+            <img src="screenStatic/img/bj-4.png" alt="" class="bj-4">
+            <div class="message_scroll_box">
+                <div class="scroll_topxs">
+                    &nbsp;
+                    <div class="scroll_levelxx">
+                        <span style="font-size:20px;word-wrap: break-word;
+                        word-break: break-all;
+                        display:inline-block;
+                        white-space: pre-wrap !important;padding:0px 20px 0px">姓名：</span>
+                        <span style="font-size:18px;color: white;width: 100px; !important;">{{infoMations.name}}</span>
+                    </div>
+                    &nbsp;
+                    <div class="scroll_levelxx">
+                        <span style="font-size:20px;word-wrap: break-word;
+                        word-break: break-all;
+                        display:inline-block;
+                        white-space: pre-wrap !important;font-size: 25px;padding:0px 20px 0px">IMSI：</span>
+                        <span style="color: white;width: 200px; !important;font-size: 28px">{{infoMations.imsi}}</span>
+                    </div>
+                    &nbsp;
+                    <div class="scroll_levelxx">
+                        <span style="font-size:20px;word-wrap: break-word;
+                        word-break: break-all;
+                        display:inline-block;
+                        white-space: pre-wrap !important;padding:0px 20px 0px">电话：</span>
+                        <span style="color: white;width: 100px;!important;font-size: 27px">{{infoMations.isdn}}</span>
+                    </div>
+                    &nbsp;
+                    <div class="scroll_levelxx">
+                        <span style="font-size:20px;word-wrap: break-word;
+                        word-break: break-all;
+                        display:inline-block;
+                        white-space: pre-wrap !important;padding:0px 20px 0px">位置：</span>
+                        <span style="font-size:18px;color: white;width: 400px;!important;">{{infoMations.catchArea}}</span>
+                    </div>
+                    &nbsp;
+                    <div class="scroll_levelxx">
+                        <span style="font-size:20px;word-wrap: break-word;
+                        word-break: break-all;
+                        display:inline-block;
+                        white-space: pre-wrap !important;padding:0px 20px 0px">时间：</span>
+                        <span style="color: white;width: 250px; !important;font-size: 27px">{{infoMations.catchTime}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info cage_cl check_increase" style=" margin-top: 1.5% !important; height: 31%">
+            <!--切换01-->
+            <div class="title">一周统计</div>
+            <img src="screenStatic/img/bj-1.png" alt="" class="bj-1">
+            <img src="screenStatic/img/bj-2.png" alt="" class="bj-2">
+            <img src="screenStatic/img/bj-3.png" alt="" class="bj-3">
+            <img src="screenStatic/img/bj-4.png" alt="" class="bj-4">
+            <div id="echarts_5" class="charts"></div>
+        </div>
+        <div class="info cage_cl check_decrease"
+             style="margin-top: 1.5% !important; height: 27.5%; position: relative;">
+            <div class="title">运营商分布</div>
+            <img src="screenStatic/img/bj-1.png" alt="" class="bj-1">
+            <img src="screenStatic/img/bj-2.png" alt="" class="bj-2">
+            <img src="screenStatic/img/bj-3.png" alt="" class="bj-3">
+            <img src="screenStatic/img/bj-4.png" alt="" class="bj-4">
+            <div id="echarts_4" class="charts"></div>
+        </div>
+    </div>
+</div>
+<script src="screenStatic/js/vue.js"></script>
+<script src="screenStatic/js/jquery-2.1.1.min.js"></script>
+<script src="screenStatic/js/echarts.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            lists: [],
+            t: '',
+            T: '',
+            websocket: null,
+            data: '',
+            nums: null,
+            dayTotal: null,
+            allTotal: null,
+            dayJTotal: null,
+            infoMations: {catchArea: '', name: '', isdn: '', imsi: '', catchTime: ''},
+            weekData: {weekList: [], countList: []},
+            hourList: null,
+            countList: null,
+            timeValue: null,
+            timeList: null,
+            timeData: {
+                notificationCount: '',
+                countOfCMCC: '',
+                countOfCTCC: '',
+                countOfCUCC: '',
+                numberCount: '',
+                numberToday: '',
+                notificationToday: '',
+                hourList: null,
+                numberList: null,
+            },
+            yys: {},
+            points: [{lng: null, lat: null, count: null}],
+            heatmapOverlay: null,
+            map: null,
+            maekerSpoint: null,
+            inFowInDow: null,
+        },
+        methods: {
+            //小时流动
+            getBeforeDate(n) {
+                var n = n;
+                var d = new Date();
+                var year = d.getFullYear();
+                var mon = d.getMonth() + 1;
+                var day = d.getDate();
+                if (day <= n) {
+                    if (mon > 1) {
+                        mon = mon - 1;
+                    } else {
+                        year = year - 1;
+                        mon = 12;
+                    }
+                }
+                d.setDate(d.getDate() - n);
+                year = d.getFullYear();
+                mon = d.getMonth() + 1;
+                day = d.getDate();
+                s = (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day);
+                return s;
+            },
+            echarts_3() {
+                // 基于准备好的dom，初始化echarts实例
+                let __this = this;
+                let myChart = echarts.init(document.getElementById('echarts_3'));
+                let option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        data: ['简易程序案件数']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '3%',
+                        top: '8%',
+                        bottom: '5%',
+                        containLabel: true
+                    },
+                    color: ['#a4d8cc', '#25f3e6'],
+                    toolbox: {
+                        show: false,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {show: false},
+                            boundaryGap: false,
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#ccc',
+                                    fontSize: '12'
+                                },
+                                lineStyle: {
+                                    color: '#2c3459',
+                                },
+                                interval: {default: 0},
+                                rotate: 50,
+                                formatter: function (params) {
+                                    let newParamsName = "";// 最终拼接成的字符串
+                                    let paramsNameNumber = params.length;// 实际标签的个数
+                                    let provideNumber = 4;// 每行能显示的字的个数
+                                    let rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
+                                    /**
+                                     * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+                                     */
+                                    // 条件等同于rowNumber>1
+                                    if (paramsNameNumber > provideNumber) {
+                                        /** 循环每一行,p表示行 */
+                                        let tempStr = "";
+                                        tempStr = params.substring(0, 4);
+                                        newParamsName = tempStr + "...";// 最终拼成的字符串
+                                    } else {
+                                        // 将旧标签的值赋给新标签
+                                        newParamsName = params;
+                                    }
+                                    //将最终的字符串返回
+                                    return newParamsName
+                                }
+
+                            },
+                            data: __this.timeList
+                        }
+                    ],
+                    yAxis: {
+
+                        type: 'value',
+                        axisLabel: {
+                            textStyle: {
+                                color: '#ccc',
+                                fontSize: '12',
+                            }
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: 'rgba(160,160,160,0.3)',
+                            }
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: 'rgba(160,160,160,0.3)',
+                            }
+                        },
+
+                    },
+                    series: [
+                        {
+                            // name:'简易程序案件数',
+                            type: 'line',
+                            areaStyle: {
+
+                                normal: {
+                                    type: 'default',
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
+                                        offset: 0,
+                                        color: '#25f3e6'
+                                    }, {
+                                        offset: 1,
+                                        color: '#0089ff'
+                                    }], false)
+                                }
+                            },
+                            smooth: true,
+                            itemStyle: {
+                                normal: {areaStyle: {type: 'default'}}
+                            },
+                            data: __this.timeValue
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.addEventListener("resize", function () {
+                    myChart.resize();
+                });
+            },
+            isSupportCanvas() {
+                let elem = document.createElement('canvas');
+                return !!(elem.getContext && elem.getContext('2d'));
+            },
+            //图饼
+            echarts_4() {
+                let __this = this;
+                // 基于准备好的dom，初始化echarts实例
+                let myChart = echarts.init(document.getElementById('echarts_4'));
+                let option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{b}: <br/>  {c} ({d}%)"
+                    },
+                    toolbox: {
+                        show: false,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    series: [
+
+                        {
+                            name: '排名',
+                            type: 'pie',
+                            color: ['#af89d6', '#f5c847', '#ff999a', '#0089ff', '#25f3e6'],
+                            radius: [0, 75],
+                            center: ['50%', '50%'],
+
+                            avoidLabelOverlap: true, ////是否启用防止标签重叠
+                            itemStyle: { //图形样式
+                                normal: {
+                                    borderColor: '#1e2239',
+                                    borderWidth: 2,
+                                },
+                            },
+                            label: {            //饼图图形上的文本标签
+                                normal: {
+                                    show: true,
+
+                                    textStyle: {
+                                        fontWeight: 300,
+                                        fontSize: 20    //文字的字体大小
+                                    },
+
+
+                                }
+                            },
+                            data: [
+                                {value: __this.timeData.countOfCTCC, name: '电信'},
+                                {value: __this.timeData.countOfCUCC, name: '联通'},
+                                {value: __this.timeData.countOfCMCC, name: '移动'},
+                            ]
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.addEventListener("resize", function () {
+                    myChart.resize();
+                });
+            },
+            //树状图
+            echarts_5() {
+                // 基于准备好的dom，初始化echarts实例
+                let __this = this;
+                let myChart = echarts.init(document.getElementById('echarts_5'));
+                let xData = function () {
+                    // let data = datas.weekList;
+                    let data = __this.hourList;
+                    return data;
+                }();
+                let data = __this.weekList;
+                // let data = weekData.num;
+                let option = {
+                    // backgroundColor: "#141f56",
+                    tooltip: {
+                        show: "true",
+                        trigger: 'item',
+                        backgroundColor: 'rgba(0,0,0,0.4)', // 背景
+                        padding: [8, 10], //内边距
+                        // extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);', //添加阴影
+                        formatter: function (params) {
+                            if (params.seriesName != "") {
+                                return "取号" + ' ：  ' + params.value + ' ';
+                            }
+                        },
+
+                    },
+                    grid: {
+                        borderWidth: 0,
+                        top: 20,
+                        bottom: 35,
+                        left: 55,
+                        right: 30,
+                        textStyle: {
+                            color: "#fff"
+                        }
+                    },
+                    xAxis: [{
+                        type: 'category',
+
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#363e83',
+                            }
+                        },
+                        axisLabel: {
+                            inside: false,
+                            textStyle: {
+                                color: '#bac0c0',
+                                fontWeight: 'normal',
+                                fontSize: '12',
+                            },
+                            // formatter:function(val){
+                            //     return val.split("").join("\n")
+                            // },
+                        },
+                        data: xData,
+                    }, {
+                        type: 'category',
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: false
+                        },
+                        splitArea: {
+                            show: false
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        data: xData,
+                    }],
+                    yAxis: {
+                        type: 'value',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#32346c',
+                            }
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#32346c ',
+                            }
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: '#bac0c0',
+                                fontWeight: 'normal',
+                                fontSize: '12',
+                            },
+                            formatter: '{value}',
+                        },
+                    },
+                    series: [{
+                        // name: '生师比(%)',
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                show: true,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: '#00c0e9'
+                                }, {
+                                    offset: 1,
+                                    color: '#3b73cf'
+                                }]),
+                                barBorderRadius: 50,
+                                borderWidth: 0,
+                            },
+                            emphasis: {
+                                shadowBlur: 15,
+                                shadowColor: 'rgba(105,123, 214, 0.7)'
+                            }
+                        },
+                        zlevel: 2,
+                        barWidth: '20%',
+                        data: data,
+                    },
+                        {
+                            name: '',
+                            type: 'bar',
+                            xAxisIndex: 1,
+                            zlevel: 1,
+                            itemStyle: {
+                                normal: {
+                                    color: '#121847',
+                                    borderWidth: 0,
+                                    shadowBlur: {
+                                        shadowColor: 'rgba(255,255,255,0.31)',
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowOffsetY: 2,
+                                    },
+                                }
+                            },
+                            barWidth: '20%',
+                            data: [0, 0, 0, 0, 0]
+                        }
+                    ]
+                }
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.addEventListener("resize", function () {
+                    myChart.resize();
+                });
+            },
+            p(s) {
+                return s < 10 ? '0' + s : s;
+            },
+            initWebSocket(websocket) {
+                let __this = this;
+                //链接错误
+                __this.websocket.onerror = __this.setErrorMessage;
+                //连接成功
+                __this.websocket.onopen = __this.setOnopenMessage;
+                //收到消息的回调
+                __this.websocket.onmessage = __this.setOnmessageMessage;
+                // //连接关闭的回调
+                __this.websocket.onclose = __this.setOncloseMessage;
+                //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+                window.onbeforeunload = function () {
+                    websocket.close();
+                };
+            },
+            setOncloseMessage() {
+                let __this = this;
+                __this.data = "WebSocket连接关闭" + '   状态码：' + __this.websocket.readyState;
+            },
+            setOnmessageMessage() {
+                let __this = this;
+                __this.weekData = JSON.parse(event.data);
+                console.log(__this.weekData)
+                if (__this.weekData.weekDay != undefined) {
+                    __this.timeList = __this.weekData.weekDay.timeList;
+                    __this.timeValue = __this.weekData.weekDay.timeValue;
+                    __this.echarts_3();
+                }
+                if (__this.weekData.weekDay != undefined) {
+                    __this.weekList = __this.weekData.weekDay.perDayValue;
+                    __this.hourList = __this.weekData.weekDay.dateList;
+                    console.log(__this.weekList)
+                    __this.echarts_5();
+                }
+
+                if (__this.weekData.startNumber != undefined) {
+                    __this.timeData = {
+                        notificationCount: __this.weekData.startNumber.notificationCount,
+                        countOfCMCC: __this.weekData.startNumber.countOfCMCC,
+                        countOfCTCC: __this.weekData.startNumber.countOfCTCC,
+                        countOfCUCC: __this.weekData.startNumber.countOfCUCC,
+                        numberCount: __this.weekData.startNumber.numberCount,
+                        numberToday: __this.weekData.startNumber.numberToday,
+                        notificationToday: __this.weekData.startNumber.notificationToday
+                    };
+                    __this.echarts_4();
+                }
+                if (__this.weekData.number != undefined) {
+                    let number = JSON.parse(__this.weekData.number);
+                    console.log(__this.weekData.numberToday)
+                    __this.TimeControl(number);
+                    __this.timeData = {
+                        notificationCount: __this.weekData.notificationCount,
+                        countOfCMCC: __this.weekData.countOfCMCC,
+                        countOfCTCC: __this.weekData.countOfCTCC,
+                        countOfCUCC: __this.weekData.countOfCUCC,
+                        numberCount: __this.weekData.numberCount,
+                        numberToday: __this.weekData.numberToday,
+                        notificationToday: __this.weekData.notificationToday
+                    };
+                    let pointSx = [{"lng": number.lng, "lat": number.lat, "count": 3158}]; // 点坐标
+                    __this.heatmapOverlay.setDataSet({data: pointSx, max: 100});
+                    //判断是否有目标上号
+                    if (number.isTarget == 1) {
+                        __this.infoMations = {
+                            catchArea: number.catchArea.substring(2, number.catchArea.length),
+                            name: '测试',
+                            isdn: number.isdn,
+                            imsi: number.imsi,
+                            catchTime: number.catchTime.substring(0, number.catchTime.length - 2),
+                        };
+                        //     //标记点内容
+                        __this.pointMarker(number);
+                    }
+                    __this.echarts_4();
+
+                }
+            },
+            setErrorMessage() {
+                let __this = this;
+                __this.data = "WebSocket连接发生错误" + '   状态码：' + __this.websocket.readyState;
+            },
+            setOnopenMessage() {
+                let __this = this;
+                __this.data = "WebSocket连接成功" + '   状态码：' + __this.websocket.readyState;
+            },
+            onbeforeunload() {
+                let __this = this;
+                __this.closeWebSocket();
+            },
+            //websocket发送消息
+            send() {
+                let __this = this;
+                __this.websocket.send(__this.text);
+                __this.text = '';
+            },
+            closeWebSocket() {
+                let __this = this;
+                __this.websocket.close();
+            },
+            TimeControl(data) {
+                $('.scroll_top').each(function (i, e) {
+                    if ($(this).find().prevObject.context.innerText.substring(0, 15) == data.imsi) {
+                        $(this).remove();
+                        return false;
+                    }
+                });
+                $(".scroll_top:first").before(
+                    "                            <div class=\"scroll_top\">\n" +
+                    "                                    <span class=\"scroll_level\">" + data.imsi + "</span>\n" +
+                    "                                    <span class=\"scroll_ledfsvel\">" + data.isdn + "</span>\n" +
+                    "                                    <span class=\"scroll_ledfsvexcl\">" + data.area.trim() + "</span>\n" +
+                    "                                    <span class=\"scroll_timer\">" + data.catchTime.substring(11, data.catchTime.length - 2) + "</span></div>&nbsp;");    //在第一个新闻后面插入最后一个新闻
+                if ($(".scroll_top").length > 15) {
+                    $(".scroll_top:last").remove();
+                }
+            },
+            pointMarker(data) {
+                let __this = this;
+                if (__this.markerSpoint != null) {
+                    __this.map.removeOverlay(__this.markerSpoint);
+                }
+                var myIcon = new BMap.Icon("./img/points.gif", new BMap.Size(100, 100));
+                let point = new BMap.Point(data.lng, data.lat); // 点坐标
+                __this.markerSpoint = new BMap.Marker(point, {icon: myIcon});
+                // , {icon: myIcon}
+                let opts = {
+                    width: 310, // 信息窗口宽度
+                    height: 130, // 信息窗口高度
+                    title: '<h4>' + '测试案件' + '</h4>', // 信息窗口标题
+                };
+                var content = '<div class="alarmDiv">';
+                content += '<table style="width:100%;height:100%;" border="1" cellpadding="0" cellspacing="0">';
+                content += '<tr>';
+                content += '<td class="tabLabel">姓名</td><td class="tabText">测试</td></tr><tr><td class="tabLabel">手机号</td>';
+                content += '<td class="tabText">' + data.isdn + '</td></tr><tr><td class="tabLabel">地点</td>';
+                content += '<td class="tabText">' + data.catchArea.substring(2, data.catchArea.length) + '</td></tr> <tr> <td class="tabLabel">时间</td>';
+                content += '<td class="tabText">' + data.catchTime.substring(0, data.catchTime.length - 2) + '</td>';
+                content +=
+                    '</tr></table></td></tr></table></div>';
+                let inFowInDows = new BMap.InfoWindow(content, opts); // 创建信息窗口对象
+                __this.map.openInfoWindow(inFowInDows, point); //开启信息窗口
+                __this.map.addOverlay(__this.markerSpoint);
+            }
+        },
+        mounted: function () {
+            let __this = this;
+            __this.map = new BMap.Map("map");    // 创建Map实例
+            __this.map.centerAndZoom(new BMap.Point(117.32, 34.82), 11);  // 初始化地图,设置中心点坐标和地图级别
+            //添加地图类型控件
+            __this.map.addControl(new BMap.MapTypeControl({
+                mapTypes: [
+                    BMAP_NORMAL_MAP
+                ]
+            }));
+            let mapStyle = {
+                style: "bluish"
+            };
+            __this.map.setMapStyle(mapStyle);
+            __this.map.setCurrentCity("枣庄");          // 设置地图显示的城市 此项是必须设置的
+            __this.map.enableScrollWheelZoom(true);
+            if ('WebSocket' in window) {
+                let userNo = "screen";
+                __this.websocket = new WebSocket('ws://127.0.0.1:8081/websocket/' + userNo);
+                __this.initWebSocket(__this.websocket);
+            } else {
+                alert('当前浏览器 Not support websocket');
+            }
+            __this.t = setTimeout(__this.time, 1000);//開始运行
+            // 百度地图API功能
+            __this.echarts_3();
+            __this.echarts_4();
+            __this.echarts_5();
+            if (!__this.isSupportCanvas()) {
+                alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
+            }
+            __this.heatmapOverlay = new BMapLib.HeatmapOverlay({"radius": 20, "visible": true});
+            __this.map.addOverlay(__this.heatmapOverlay);
+        },
+        beforeDestroy() {
+            let __this = this;
+            __this.onbeforeunload();
+        }
+    })
+</script>
+</body>
+</html>
